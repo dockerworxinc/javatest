@@ -1,0 +1,23 @@
+version: '3'
+services:
+  ea:
+    image: practicum
+    restart: always
+    # ports:
+    #   - "1223:1223"
+    volumes:
+      - "${EA_DATA:-./data/ea}:/data"
+    command: java -jar ECJ.jar -file my-config-local-machine.params
+
+  broker:
+    image: practicum
+    restart: always
+    ports:
+      - "${BROKER_PORT:-1235}:1235"
+    volumes:
+      - "${BROKER_DATA:-./data/broker}:/data"
+    command: java -jar Broker.jar -file config.property.broker -dataloc /data
+    networks:
+      default:
+        aliases:
+          - spell.forest.usf.edu
